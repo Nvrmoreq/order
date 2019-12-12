@@ -15,3 +15,25 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/springcloud_shell?serverTimezone=UTC&characterEncoding=utf-8&useSSL=false
   jpa:
     show-sql: true
+  rabbitmq:
+    host: 192.168.1.191
+    port: 5672
+    password: guest
+    username: guest
+  cloud:
+    stream:
+      bindings:
+        myMessageIn:
+          destination: mymessage
+          group: order
+          content-type: application/json
+        myMessageOut:
+          destination: mymessage
+          group: order
+        myMessageIn2:
+          destination: mymessage2
+          group: order2
+          content-type: application/json
+        myMessageOut2:
+          destination: mymessage2
+          group: order2
