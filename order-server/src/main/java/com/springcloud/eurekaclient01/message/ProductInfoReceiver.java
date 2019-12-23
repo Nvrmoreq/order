@@ -29,21 +29,21 @@ public class ProductInfoReceiver {
     private RedisTemplate<String, String> redisTemplate;
 
     @RabbitListener(queuesToDeclare = @Queue("productInfo"))
-    public void process(String message){
+    public void process(String message) {
         ObjectMapper mapper = new ObjectMapper();
         JsonFrom jsonFrom = new JsonFrom();
         try {
-            jsonFrom = mapper.readValue(message,JsonFrom.class);
+            jsonFrom = mapper.readValue(message, JsonFrom.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         List<ProductInfoOutput> productInfoOutputList = jsonFrom.getProductInfoOutputList();
-        log.info("从队列【{}】接收消息：{}","productInfo",productInfoOutputList);
+        log.info("从队列【{}】接收消息：{}", "productInfo", productInfoOutputList);
 
         //存储到redis
-        for(ProductInfoOutput productInfoOutput : productInfoOutputList){
-            redisTemplate.opsForValue().set(String.format(PRODUCT_STOCK_TEMPLATE,productInfoOutput.getProductId())
-                    ,String.valueOf(productInfoOutput.getProductStock()));
+        for (ProductInfoOutput productInfoOutput : productInfoOutputList) {
+            redisTemplate.opsForValue().set(String.format(PRODUCT_STOCK_TEMPLATE, productInfoOutput.getProductId())
+                    , String.valueOf(productInfoOutput.getProductStock()));
         }
     }
 }

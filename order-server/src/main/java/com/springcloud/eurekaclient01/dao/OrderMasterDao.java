@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Description:
  * @Date created in 17:16 2019/11/19
  */
-public interface OrderMasterDao extends JpaRepository<OrderMaster,String> {
+public interface OrderMasterDao extends JpaRepository<OrderMaster, String> {
 }

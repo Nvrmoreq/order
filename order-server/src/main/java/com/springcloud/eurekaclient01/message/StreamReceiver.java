@@ -19,13 +19,13 @@ public class StreamReceiver {
 
     @StreamListener(StreamClient.INPUT)
     @SendTo(StreamClient.OUTPUT2)
-    public String process(OrderVO message){
-        log.info("StreamReceiver input1:{}",message);
+    public String process(OrderVO message) {
+        log.info("StreamReceiver input1:{}", message);
         return "received";
     }
 
     @StreamListener(StreamClient.INPUT2)
-    public void process2(String message){
-        log.info("StreamReceiver input2:{}",message);
+    public void process2(String message) {
+        log.info("StreamReceiver input2:{}", message);
     }
 }

@@ -41,21 +41,21 @@ public class OrderController {
      * 5.订单入库
      */
     @PostMapping("/create")
-    public ResultVO<Map<String,String>> create(@Valid OrderForm orderFrom, BindingResult bindingResult){
+    public ResultVO<Map<String, String>> create(@Valid OrderForm orderFrom, BindingResult bindingResult) {
         //表单认证
-        if(bindingResult.hasErrors()){
-            log.error("【创建订单】参数不正确，errorInfo={}",orderFrom);
-            throw new OrderException(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        if (bindingResult.hasErrors()) {
+            log.error("【创建订单】参数不正确，errorInfo={}", orderFrom);
+            throw new OrderException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
         //orderform -> orderVO
         OrderVO orderVO = OrderForm2OrderVO.convert(orderFrom);
-        if(CollectionUtils.isEmpty(orderVO.getOrderDetailList())){
+        if (CollectionUtils.isEmpty(orderVO.getOrderDetailList())) {
             log.error("【创建订单】购物车信息为空");
             throw new OrderException(ResultEnum.CART_EMPTY);
         }
         OrderVO result = orderService.create(orderVO);
-        Map<String,String> map = new HashMap<>();
-        map.put("orderId",result.getOrderId());
+        Map<String, String> map = new HashMap<>();
+        map.put("orderId", result.getOrderId());
 
         return ResultVOUtil.success(map);
     }

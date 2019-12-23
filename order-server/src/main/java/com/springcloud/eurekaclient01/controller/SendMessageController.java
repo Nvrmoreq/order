@@ -21,7 +21,7 @@ public class SendMessageController {
     private StreamClient streamClient;
 
     @GetMapping("/sendMessage")
-    public void process(){
+    public void process() {
         OrderVO orderVO = new OrderVO();
         orderVO.setOrderId("111111");
         streamClient.output().send(MessageBuilder.withPayload(orderVO).build());

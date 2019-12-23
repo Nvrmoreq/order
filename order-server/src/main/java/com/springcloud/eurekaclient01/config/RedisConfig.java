@@ -1,4 +1,4 @@
-package com.springcloud.eurekaclient01;
+package com.springcloud.eurekaclient01.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

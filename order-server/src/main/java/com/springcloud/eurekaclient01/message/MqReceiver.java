@@ -23,12 +23,13 @@ public class MqReceiver {
             value = @Queue("myQueue"),
             exchange = @Exchange("myExchange")
     ))
-    public void process(String message){
-        log.info("MqReceiver:{}",message);
+    public void process(String message) {
+        log.info("MqReceiver:{}", message);
     }
 
     /**
      * 数码供应商服务 接收消息
+     *
      * @param message
      */
     @RabbitListener(bindings = @QueueBinding(
@@ -36,12 +37,13 @@ public class MqReceiver {
             key = "computer",
             value = @Queue("computerOrder")
     ))
-    public void processComputer(String message){
-        log.info("computer MqReceiver:{}",message);
+    public void processComputer(String message) {
+        log.info("computer MqReceiver:{}", message);
     }
 
     /**
      * 水果供应商服务 接收消息
+     *
      * @param message
      */
     @RabbitListener(bindings = @QueueBinding(
@@ -49,7 +51,7 @@ public class MqReceiver {
             key = "fruit",
             value = @Queue("fruitOrder")
     ))
-    public void processFruit(String message){
-        log.info("fruit MqReceiver:{}",message);
+    public void processFruit(String message) {
+        log.info("fruit MqReceiver:{}", message);
     }
 }

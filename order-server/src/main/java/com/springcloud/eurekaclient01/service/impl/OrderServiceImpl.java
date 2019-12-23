@@ -49,10 +49,10 @@ public class OrderServiceImpl implements OrderService {
 
         //计算总价
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
-        for(OrderDetail orderDetail : orderVO.getOrderDetailList()){
+        for (OrderDetail orderDetail : orderVO.getOrderDetailList()) {
             //单价乘以数量
-            for(ProductInfoOutput productInfoOutput:productInfoOutputList){
-                if(productInfoOutput.getProductId().equals(orderDetail.getProductId())){
+            for (ProductInfoOutput productInfoOutput : productInfoOutputList) {
+                if (productInfoOutput.getProductId().equals(orderDetail.getProductId())) {
                     //累计单价*数量
                     orderAmount = productInfoOutput.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity())).add(orderAmount);
                     BeanUtils.copyProperties(productInfoOutput, orderDetail);
@@ -65,14 +65,14 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //扣库存
-        List<DecreaseStockInput> decreaseStockInputList = orderVO.getOrderDetailList().stream().map(e -> new DecreaseStockInput(e.getProductId(),e.getProductQuantity()))
+        List<DecreaseStockInput> decreaseStockInputList = orderVO.getOrderDetailList().stream().map(e -> new DecreaseStockInput(e.getProductId(), e.getProductQuantity()))
                 .collect(Collectors.toList());
         productClient.decreaseStock(decreaseStockInputList);
 
         //订单入库
         OrderMaster orderMaster = new OrderMaster();
         orderVO.setOrderId(orderId);
-        BeanUtils.copyProperties(orderVO,orderMaster);
+        BeanUtils.copyProperties(orderVO, orderMaster);
         orderMaster.setOrderAmount(new BigDecimal(5));
         orderMaster.setOrderStatus(OrderStatus.NEW.getCode());
         orderMaster.setPayStatus(PayStatus.WAIT.getCode());

@@ -30,6 +30,7 @@ public class ClientController {
      * 模拟调用商品服务接口
      * 1.使用RestTemplate
      * 2.使用Feign(它是声明式REST客户端（伪RPC），采用了基于接口的注解)
+     *
      * @return
      */
     /*@GetMapping("/getProductMsg")
@@ -38,17 +39,16 @@ public class ClientController {
         log.info("response={}",response);
         return response;
     }*/
-
     @GetMapping("/getProductList")
-    public String getProductList(){
-        List<ProductInfoOutput> list = productClient.listForOrder(Arrays.asList("157875196366160022","157875227953464068"));
-        log.info("response={}",list);
+    public String getProductList() {
+        List<ProductInfoOutput> list = productClient.listForOrder(Arrays.asList("157875196366160022", "157875227953464068"));
+        log.info("response={}", list);
         return "ok";
     }
 
     @GetMapping("/productDecreaseStock")
-    public String productDecreaseStock(){
-        productClient.decreaseStock(Arrays.asList(new DecreaseStockInput("157875227953464068",2),new DecreaseStockInput("164103465734242707",2)));
+    public String productDecreaseStock() {
+        productClient.decreaseStock(Arrays.asList(new DecreaseStockInput("157875227953464068", 2), new DecreaseStockInput("164103465734242707", 2)));
         return "ok";
     }
 }

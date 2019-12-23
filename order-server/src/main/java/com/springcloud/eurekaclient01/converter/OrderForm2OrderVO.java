@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class OrderForm2OrderVO {
 
-    public static OrderVO convert(OrderForm orderForm){
+    public static OrderVO convert(OrderForm orderForm) {
         Gson gson = new Gson();
         OrderVO orderVO = new OrderVO();
         orderVO.setBuyerName(orderForm.getName());
@@ -29,11 +29,12 @@ public class OrderForm2OrderVO {
         orderVO.setBuyerOpenid(orderForm.getOpenid());
         List<OrderDetail> orderDetailList = new ArrayList<>();
 
-        try{
+        try {
             orderDetailList = gson.fromJson(orderForm.getItems(),
-                    new TypeToken<List<OrderDetail>>(){}.getType());
-        }catch (Exception e){
-            log.error("【json转换】错误，string{}",orderForm.getItems());
+                    new TypeToken<List<OrderDetail>>() {
+                    }.getType());
+        } catch (Exception e) {
+            log.error("【json转换】错误，string{}", orderForm.getItems());
             throw new OrderException(ResultEnum.PARAM_ERROR);
         }
         orderVO.setOrderDetailList(orderDetailList);

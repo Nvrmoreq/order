@@ -18,18 +18,18 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Component
-public class MqSenderTest{
+public class MqSenderTest {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
 
     @Test
-    public void send(){
-        amqpTemplate.convertAndSend("myQueue","now "+ new Date());
+    public void send() {
+        amqpTemplate.convertAndSend("myQueue", "now " + new Date());
     }
 
     @Test
-    public void sendOrder(){
-        amqpTemplate.convertAndSend("myOrder","computer","now"+ new Date());
+    public void sendOrder() {
+        amqpTemplate.convertAndSend("myOrder", "computer", "now" + new Date());
     }
 }
