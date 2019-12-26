@@ -9,5 +9,17 @@ import com.springcloud.eurekaclient01.vo.OrderVO;
  */
 public interface OrderService {
 
+    /**
+     * 创建订单
+     * @param orderVO
+     * @return
+     */
     OrderVO create(OrderVO orderVO);
+
+    /**
+     * 完成订单（卖家操作，置成完结状态）
+     * @param orderId
+     * @return
+     */
+    OrderVO finish(String orderId);
 }

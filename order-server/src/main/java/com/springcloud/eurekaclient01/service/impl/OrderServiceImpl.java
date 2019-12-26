@@ -9,17 +9,21 @@ import com.springcloud.eurekaclient01.dao.OrderDetilDao;
 import com.springcloud.eurekaclient01.dao.OrderMasterDao;
 import com.springcloud.eurekaclient01.enums.OrderStatus;
 import com.springcloud.eurekaclient01.enums.PayStatus;
+import com.springcloud.eurekaclient01.enums.ResultEnum;
+import com.springcloud.eurekaclient01.exception.OrderException;
 import com.springcloud.eurekaclient01.service.OrderService;
 import com.springcloud.eurekaclient01.util.KeyUtil;
 import com.springcloud.eurekaclient01.vo.OrderVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -77,6 +81,34 @@ public class OrderServiceImpl implements OrderService {
         orderMaster.setOrderStatus(OrderStatus.NEW.getCode());
         orderMaster.setPayStatus(PayStatus.WAIT.getCode());
         orderMasterDao.save(orderMaster);
+        return orderVO;
+    }
+
+    @Override
+    @Transactional
+    public OrderVO finish(String orderId) {
+        //1.查询订单
+        Optional<OrderMaster> orderMasterOptional = orderMasterDao.findById(orderId);
+        if(!orderMasterOptional.isPresent()){
+            throw new OrderException(ResultEnum.ORDER_NOT_EXIST);
+        }
+        //2.判断订单状态
+        OrderMaster orderMaster = orderMasterOptional.get();
+        if(OrderStatus.NEW.getCode() != orderMaster.getOrderStatus()){
+            throw new OrderException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        //3.修改订单状态为完结
+        orderMaster.setOrderStatus(OrderStatus.FINISHED.getCode());
+        orderMasterDao.save(orderMaster);
+
+        //查询订单详情
+        List<OrderDetail> orderDetailList = orderDetilDao.findByOrderId(orderId);
+        if(CollectionUtils.isEmpty(orderDetailList)){
+            throw new OrderException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
+        }
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orderMaster,orderVO);
+        orderVO.setOrderDetailList(orderDetailList);
         return orderVO;
     }
 }
