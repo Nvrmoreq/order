@@ -2,6 +2,23 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8001/eureka/
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+    getProductInfoList:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+
+feign:
+  hystrix:
+    enabled: true
+
 server:
   port: 8003
 spring:
@@ -43,3 +60,11 @@ spring:
         myMessageOut2:
           destination: mymessage2
           group: order2
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug
