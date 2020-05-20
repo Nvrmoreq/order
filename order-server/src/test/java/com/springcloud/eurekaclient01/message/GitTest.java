@@ -7,6 +7,6 @@ package com.springcloud.eurekaclient01.message;
  */
 public class GitTest {
     public static void main(String[] args) {
-        System.out.println("git test master");
+        System.out.println("git test master 111");
     }
 }
